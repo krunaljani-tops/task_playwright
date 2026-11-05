@@ -1,0 +1,47 @@
+{
+  "shipping_threshold": 75.0,
+  "standard_shipping_fee": 9.99,
+  "tax_rate": 0.08,
+  "valid_checkout_address": {
+    "line1": "742 Evergreen Terrace",
+    "line2": "Apt 4B",
+    "city": "Springfield",
+    "state": "OR",
+    "postalCode": "97477",
+    "country": "US",
+    "phone": "555-0199"
+  },
+  "invalid_checkout_addresses": [
+    {
+      "line1": "",
+      "city": "",
+      "postalCode": "",
+      "country": "US",
+      "expected_errors": [
+        "Street address is required",
+        "City is required",
+        "Postal code is required"
+      ]
+    },
+    {
+      "line1": "123 Main St",
+      "city": "Metropolis",
+      "postalCode": "1",
+      "country": "USA",
+      "expected_errors": [
+        "Postal code is required",
+        "Use a 2-letter country code"
+      ]
+    }
+  ],
+  "sample_low_cost_product": {
+    "id": "prod-sample-low",
+    "name": "Linen Coaster Set",
+    "slug": "linen-coaster-set",
+    "price": "35.00",
+    "stockQuantity": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=1200&q=80"
+    ]
+  }
+}
