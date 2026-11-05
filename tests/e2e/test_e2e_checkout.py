@@ -6,8 +6,7 @@ from pages.checkout_page import CheckoutPage
 
 def _seed_cart_with_item(page: Page, checkout_page: CheckoutPage):
     """Utility to ensure cart has an item before navigating to checkout."""
-    page.goto("/")
-    page.wait_for_load_state("domcontentloaded")
+    page.goto("/", wait_until="domcontentloaded")
     items = [
         {
             "id": "item-chk-1",
@@ -25,8 +24,7 @@ def _seed_cart_with_item(page: Page, checkout_page: CheckoutPage):
         }
     ]
     checkout_page.set_local_cart(items)
-    page.goto("/checkout")
-    page.wait_for_load_state("domcontentloaded")
+    page.goto("/checkout", wait_until="domcontentloaded")
     expect(checkout_page.continue_to_review_btn).to_be_visible()
 
 

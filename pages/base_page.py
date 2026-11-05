@@ -19,11 +19,10 @@ class BasePage:
         self.toast = page.locator("[role='status'], [role='alert'], .shadow-card")
 
     def navigate_to(self, path: str = "/"):
-        """Navigates to the specified path, waiting for network or DOM ready."""
-        self.page.goto(path)
-        self.page.wait_for_load_state("domcontentloaded")
+        """Navigates to the specified path, waiting for DOM ready."""
+        self.page.goto(path, wait_until="domcontentloaded", timeout=30000)
         try:
-            self.page.wait_for_load_state("networkidle", timeout=5000)
+            self.page.wait_for_load_state("networkidle", timeout=3000)
         except Exception:
             pass
 

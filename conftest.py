@@ -35,6 +35,28 @@ def single_product_schema():
 
 
 @pytest.fixture(scope="session")
+def electronic_product_schema():
+    """Loads electronic product JSON schema for mockapi."""
+    schema_file = DATA_DIR / "electronic_product_schema.json"
+    with open(schema_file, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+@pytest.fixture(scope="session")
+def electronic_api_context(playwright: Playwright) -> APIRequestContext:
+    """Provides Playwright APIRequestContext configured for MockAPI electronic endpoint."""
+    request_context = playwright.request.new_context(
+        base_url="https://681444af225ff1af16285b31.mockapi.io",
+        extra_http_headers={
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        }
+    )
+    yield request_context
+    request_context.dispose()
+
+
+@pytest.fixture(scope="session")
 def api_context(playwright: Playwright, base_url: str) -> APIRequestContext:
     """Provides Playwright APIRequestContext configured with base URL."""
     request_context = playwright.request.new_context(

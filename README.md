@@ -1,21 +1,23 @@
 # Northline Store – E2E, API and CI/CD Automated Test Suite
 
-[![Northline Tests](https://github.com/your-org/northline-tests/actions/workflows/tests.yml/badge.svg)](https://github.com/your-org/northline-tests/actions/workflows/tests.yml)
+[![Northline Tests](https://github.com/krunaljani-tops/task_playwright/actions/workflows/tests.yml/badge.svg)](https://github.com/krunaljani-tops/task_playwright/actions/workflows/tests.yml)
 [![Playwright](https://img.shields.io/badge/playwright-1.64.1-blue.svg)](https://playwright.dev/python/)
 [![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-An enterprise-grade test automation suite for the **Northline Store** e-commerce single-page application ([https://ecomcicid.netlify.app/](https://ecomcicid.netlify.app/)), built with **Python**, **Playwright**, **pytest**, **pytest-xdist**, and **GitHub Actions**.
+An enterprise-grade test automation suite for the **Northline Store** e-commerce single-page application ([https://ecomcicid.netlify.app/](https://ecomcicid.netlify.app/)) and RESTful backend APIs ([MockAPI Electronic API](https://681444af225ff1af16285b31.mockapi.io/electronicapi)), built with **Python**, **Playwright**, **pytest**, **pytest-xdist**, and **GitHub Actions**.
 
 ---
 
 ## 1. Project Overview & Scope
 
-The **Northline Store** is a modern, client-rendered single-page application (SPA) built with React, Vite, and Zustand, hosted on Netlify Edge. It features quiet luxury furniture, home objects, and apparel with real-time cart persistence and a $75.00 free shipping rule.
+The **Northline Store** is a modern, client-rendered single-page application (SPA) built with React, Vite, and Zustand, hosted on Netlify Edge. It features quiet luxury furniture, home objects, and apparel with real-time cart persistence and a $75.00 free shipping rule. In addition, backend electronic product data services are tested against the dedicated REST endpoint at `https://681444af225ff1af16285b31.mockapi.io/electronicapi`.
 
 ### Test Coverage Highlights
 * **End-to-End UI Journeys (20 Test Scenarios):** Home page navigation, catalog browsing, category filtering, search queries, multi-attribute sorting, product details, cart state transitions, $75 free-shipping threshold calculations, multi-step checkout with Zod validation, order confirmation, responsive mobile viewports (iPhone 390x844), and cross-browser execution.
-* **Backend & API Integrity (9 Test Scenarios):** Catalog data source schema validation (`/catalog.json`), response latency benchmarks (< 2s), HTTP header security and caching checks, invalid payload resilience, UI-to-API data consistency, and network fault injection (500 mock error handling).
+* **Backend & API Integrity (16 Test Scenarios):**
+  * **Northline Catalog API & UI Fault Injection (9 Tests):** Catalog data source schema validation (`/catalog.json`), response latency benchmarks (< 2s), HTTP header security and caching checks, invalid payload resilience, UI-to-API data consistency, and network fault injection (500 mock error handling).
+  * **MockAPI Electronic Endpoint REST Tests (7 Tests):** Full CRUD verification on `https://681444af225ff1af16285b31.mockapi.io/electronicapi` (GET all products with schema validation, GET single item by ID, 404 on nonexistent ID, POST product creation, PUT product modification, DELETE cleanup, category query filtering, response latency, and CORS headers).
 * **CI/CD Automation:** Multi-browser matrix (Chromium, Firefox, WebKit), two-stage execution (smoke test gate fail-fast, followed by parallelized regression), automated HTML reporting, traces, and failure screenshot artifacts.
 
 ---
@@ -42,6 +44,7 @@ Task_playwright/
 │   └── workflows/
 │       └── tests.yml               # GitHub Actions CI/CD matrix pipeline
 ├── data/
+│   ├── electronic_product_schema.json # JSON Schema for MockAPI electronic items
 │   ├── products_schema.json        # Schema validation for catalog array & categories
 │   ├── single_product_schema.json  # Schema validation for individual product items
 │   └── test_data.json              # Static fixtures (addresses, threshold values, mock items)
@@ -57,7 +60,8 @@ Task_playwright/
 │   ├── conftest.py
 │   ├── api/
 │   │   ├── __init__.py
-│   │   └── test_api_suite.py       # API tests (API-01 to API-09)
+│   │   ├── test_api_suite.py       # Northline API & fault injection tests (API-01 to API-09)
+│   │   └── test_electronic_api.py  # MockAPI electronic REST CRUD tests (ELEC-01 to ELEC-09)
 │   └── e2e/
 │       ├── __init__.py
 │       ├── test_e2e_home_navigation.py       # E2E-01, E2E-02
@@ -195,6 +199,19 @@ python -m playwright show-trace test-results/<test-folder>/trace.zip
 | **API-07** | `POST`| `/api/orders` (malformed) | Sending invalid payload does not cause a 500 server crash | `api` |
 | **API-08** | Contract| UI vs API consistency | Product names and prices displayed in UI match catalog JSON | `api`, `e2e` |
 | **API-09** | Mock | Network fault injection | Intercepts `/catalog.json` with 500; verifies UI graceful error alert | `api`, `e2e` |
+
+### MockAPI Electronic REST API Test Suite (7 Scenarios)
+**Target:** `https://681444af225ff1af16285b31.mockapi.io/electronicapi`
+
+| Test ID | Method | Endpoint / Scenario | Validation Criteria | Marker |
+|---|---|---|---|---|
+| **ELEC-01** | `GET` | `/electronicapi` | Status 200, returns array of items, validates draft-07 JSON schema | `api` |
+| **ELEC-02** | `GET` | `/electronicapi/1` | Status 200, returns single electronic product entity with required fields | `api` |
+| **ELEC-03** | `GET` | `/electronicapi/999999` | Status 404 Not Found for nonexistent product ID | `api` |
+| **ELEC-04** | `POST`/`PUT`/`DEL`| Full CRUD Lifecycle | Creates product (201), updates price/name (200), deletes item (200), verifies 404 | `api` |
+| **ELEC-07** | `GET` | `/electronicapi?category=Headphones` | Query filter; asserts all returned products belong to "Headphones" | `api` |
+| **ELEC-08** | `GET` | Performance Benchmark | Response time under 2.0 seconds | `api` |
+| **ELEC-09** | `GET` | Headers & CORS | Content-Type `application/json` and CORS headers verified | `api` |
 
 ---
 

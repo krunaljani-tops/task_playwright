@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ElectronicProduct",
+  "type": "object",
+  "required": ["id", "name", "price", "image", "brand", "category"],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "image": {
+      "type": "string"
+    },
+    "price": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "brand": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "string"
+    },
+    "stock": {
+      "type": "string"
+    },
+    "createdAt": {
+      "type": "string"
+    }
+  }
+}

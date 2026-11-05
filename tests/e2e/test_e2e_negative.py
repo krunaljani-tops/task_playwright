@@ -8,8 +8,7 @@ def test_e2e_20_invalid_url_graceful_handling(page: Page):
     uncaught_exceptions = []
     page.on("pageerror", lambda err: uncaught_exceptions.append(str(err)))
 
-    response = page.goto("/non-existent-page-404-check")
-    page.wait_for_load_state("domcontentloaded")
+    response = page.goto("/non-existent-page-404-check", wait_until="domcontentloaded")
 
     # In single-page Netlify apps, server serves 200 with index.html fallback
     assert response is not None
