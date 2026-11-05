@@ -11,9 +11,7 @@ ENV/
 
 # Pytest / Playwright
 .pytest_cache/
-reports/
 test-results/
-*.html
 *.zip
 .coverage
 htmlcov/
