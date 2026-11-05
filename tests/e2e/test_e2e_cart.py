@@ -89,3 +89,4 @@ def test_e2e_17_cart_persistence_on_reload(page: Page, product_page: ProductPage
     expect(page.locator("main").locator("text=Organic cotton overshirt").first).to_be_visible()
     subtotal_after = cart_page.get_subtotal_amount()
     assert subtotal_before == subtotal_after, f"Expected {subtotal_before}, got {subtotal_after}"
+

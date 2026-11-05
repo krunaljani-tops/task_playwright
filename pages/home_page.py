@@ -27,3 +27,4 @@ class HomePage(BasePage):
     def click_featured_product(self, index: int = 0):
         self.featured_products.nth(index).click()
         self.page.wait_for_load_state("domcontentloaded")
+

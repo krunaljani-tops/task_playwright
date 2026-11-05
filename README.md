@@ -233,3 +233,4 @@ During test exploration and discovery on `https://ecomcicid.netlify.app/`, the f
 4. **Accessible Roles & Strict-Mode Selectors:**
    * *Observed:* Multiple testimonial `<quote>` elements use internal `<footer>` tags, causing locator collisions on generic `footer` tags.
    * *Resolution:* Standardized on `page.get_by_role("contentinfo")` to ensure strict, accessible locator binding.
+

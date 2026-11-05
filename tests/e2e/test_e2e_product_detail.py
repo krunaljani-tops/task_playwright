@@ -25,3 +25,4 @@ def test_e2e_07_product_detail_page(page: Page, product_page: ProductPage):
     # Verify Add to Cart button
     expect(product_page.add_to_cart_btn.first).to_be_visible()
     expect(product_page.add_to_cart_btn.first).to_be_enabled()
+

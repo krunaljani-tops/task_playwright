@@ -58,3 +58,4 @@ def test_e2e_19_cross_browser_compatibility(page: Page, home_page: HomePage, pro
     product_page.open_listing()
     expect(product_page.page_heading).to_contain_text("All products")
     expect(product_page.all_product_links.first).to_be_visible()
+

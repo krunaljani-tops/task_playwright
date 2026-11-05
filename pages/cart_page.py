@@ -63,3 +63,4 @@ class CartPage(BasePage):
     def proceed_to_checkout(self):
         self.checkout_link.first.click()
         self.page.wait_for_load_state("domcontentloaded")
+

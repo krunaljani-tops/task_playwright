@@ -24,3 +24,4 @@ def test_e2e_20_invalid_url_graceful_handling(page: Page):
         expect(home_link).to_be_visible()
         home_link.click()
         expect(page).to_have_url("https://ecomcicid.netlify.app/")
+

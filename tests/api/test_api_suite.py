@@ -156,3 +156,4 @@ def test_api_09_network_mocking_error_state(page: Page, product_page: ProductPag
     # Verify graceful error message is displayed
     error_locator = page.locator("text=Could not load products. Try again shortly.")
     expect(error_locator).to_be_visible()
+

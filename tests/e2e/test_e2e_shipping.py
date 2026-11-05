@@ -57,3 +57,4 @@ def test_e2e_13_free_shipping_above_threshold(page: Page, product_page: ProductP
 
     shipping_text = cart_page.get_shipping_text()
     assert shipping_text.lower() == "free", f"Expected 'Free' shipping, got '{shipping_text}'"
+
